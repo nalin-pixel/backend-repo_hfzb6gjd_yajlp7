@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Any, Dict, List
 
 # Example schemas (replace with your own):
 
@@ -37,6 +37,19 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+# Visual Page/Builder schema
+class Page(BaseModel):
+    """
+    Pages created in the visual builder
+    Collection name: "page"
+    """
+    title: str = Field(..., description="Page title")
+    layout: Dict[str, Any] | List[Dict[str, Any]] = Field(
+        ..., description="Serializable JSON structure of the page layout"
+    )
+    status: Optional[str] = Field("draft", description="draft | published")
+    thumbnail_url: Optional[str] = Field(None, description="Optional thumbnail URL")
 
 # Add your own schemas here:
 # --------------------------------------------------
